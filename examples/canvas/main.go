@@ -50,7 +50,7 @@ func main() {
 
 				circ = Circle{
 					// Setup a new spring.
-					spring: harmonica.NewSpring(harmonica.TimeDelta(time.Second/fps), frequency, damping),
+					spring: harmonica.NewSpring(harmonica.FPS(fps), frequency, damping),
 
 					// Set target radius.
 					Radius: circleRadius,

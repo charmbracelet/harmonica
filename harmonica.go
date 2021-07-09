@@ -4,8 +4,8 @@
 //
 // Example usage:
 //
-//     // Run once to initialize. Note the FPS.
-//     spring := NewSpring(FPS60, 0.8, 1.0)
+//     // Run once to initialize.
+//     spring := NewSpring(FPS(60), 0.8, 1.0)
 //
 //     // Update on every frame.
 //     pos := 0.0
@@ -55,22 +55,16 @@ import (
 	"time"
 )
 
-// Standard time deltas that can be used when initializing a spring.
-const (
-	FPS60 = float64(int64(time.Second/60)) / float64(int64(time.Second))
-	FPS30 = float64(int64(time.Second/30)) / float64(int64(time.Second))
-)
-
-// TimeDelta returns a time delta for a given FPS. This is usefaul for setting
-// the time delta when initializing a Spring.
+// FPS returns a time delta for a given number of frames per second. This value
+// can be used as the time delta when initializing a Spring.
 //
 // Example:
 //
-//      delta := TimeDelta(time.Second/60)
-//      spring := New(delta, 0.98, 0.8)
+//     spring := NewSpring(FPS(60), 0.8, 0.98)
 //
-func TimeDelta(fps time.Duration) float64 {
-	return float64(int64(fps)) / float64(int64(time.Second))
+func FPS(n int) float64 {
+	d := time.Second / time.Duration(n)
+	return float64(int64(d)) / float64(int64(time.Second))
 }
 
 // In calculus ε is (in vague terms) an arbitrarily small positive number. In

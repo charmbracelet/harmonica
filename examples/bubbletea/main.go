@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	fps          = time.Second / 60
+	fps          = 60
 	spriteWidth  = 12
 	spriteHeight = 5
 	frequency    = 0.95
@@ -34,7 +34,7 @@ var (
 type frameMsg time.Time
 
 func animate() tea.Cmd {
-	return tea.Tick(fps, func(t time.Time) tea.Msg {
+	return tea.Tick(time.Second/fps, func(t time.Time) tea.Msg {
 		return frameMsg(t)
 	})
 }
@@ -94,7 +94,7 @@ func (m model) View() string {
 
 func main() {
 	m := model{
-		spring: harmonica.NewSpring(harmonica.TimeDelta(fps), frequency, damping),
+		spring: harmonica.NewSpring(harmonica.FPS(fps), frequency, damping),
 	}
 
 	if err := tea.NewProgram(m).Start(); err != nil {
