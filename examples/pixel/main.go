@@ -141,14 +141,11 @@ func (g *Game) Update() {
 	}
 
 	if released(pixelgl.MouseButtonLeft) {
-		s := g.sprite
-
-		if s == nil {
+		if g.sprite == nil {
 			g.sprite = NewSprite(g)
 		} else {
-			x, y := g.MousePosition()
-			s.TargetX = x
-			s.TargetY = y
+			s := g.sprite
+			s.TargetX, s.TargetY = g.MousePosition()
 
 			switch s.State() {
 			case hiding, gone:
@@ -156,7 +153,6 @@ func (g *Game) Update() {
 			}
 		}
 
-		g.dirty = false
 		g.lastClick = time.Now()
 	}
 
@@ -255,9 +251,7 @@ func (s *Sprite) Update() {
 		return
 	}
 
-	g := s.game
-
-	if g.dirty {
+	if s.game.dirty {
 		// Recompute spring coefficients since our frequency or damping has
 		// changed.
 		s.computeSpring()
