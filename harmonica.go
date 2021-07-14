@@ -204,6 +204,6 @@ func (s Spring) Update(pos, vel *float64, equilibriumPos float64) {
 	oldPos := *pos - equilibriumPos
 	oldVel := *vel
 
-	*pos = oldPos*s.posPosCoef + oldVel + s.posVelCoef + equilibriumPos
+	*pos = oldPos*s.posPosCoef + oldVel*s.posVelCoef + equilibriumPos
 	*vel = oldPos*s.velPosCoef + oldVel*s.velVelCoef
 }
