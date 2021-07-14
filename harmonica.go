@@ -55,16 +55,15 @@ import (
 	"time"
 )
 
-// FPS returns a time delta for a given number of frames per second. This value
-// can be used as the time delta when initializing a Spring.
+// FPS returns a time delta for a given number of frames per second. This
+// value can be used as the time delta when initializing a Spring.
 //
 // Example:
 //
 //     spring := NewSpring(FPS(60), 0.8, 0.98)
 //
 func FPS(n int) float64 {
-	d := time.Second / time.Duration(n)
-	return float64(int64(d)) / float64(int64(time.Second))
+	return (time.Second / time.Duration(n)).Seconds()
 }
 
 // In calculus ε is (in vague terms) an arbitrarily small positive number. In
