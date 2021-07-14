@@ -71,12 +71,12 @@ func FPS(n int) float64 {
 //
 //     const float epsilon = 0.0001
 //
-//  We could also represent ε as:
+//  Some Go programmers use:
 //
 //     const epsilon float64 = 0.00000001
 //
-// In Go, however, we can calculate the machine’s epsilon value, with the
-// drawback that it must be a variable versus a constant.
+// We can, however, calculate the machine’s epsilon value, with the drawback
+// that it must be a variable versus a constant.
 var epsilon = math.Nextafter(1, 2) - 1
 
 // Spring contains a cached set of motion parameters that can be used to
@@ -103,6 +103,14 @@ type Spring struct {
 
 // New initializes a new Spring, computing the parameters needed to simulate
 // a damped spring over a given period of time.
+//
+// The delta time is the time step to advance; essentially the framerate.
+//
+// The angular frequency is the angular frequency of motion, which affects the
+// speed.
+//
+// The damping ratio is the damping ratio of motion, which determines the
+// oscillation, or lack thereof. There are three categories of damping ratios:
 //
 // Damping ratio > 1: over-damped.
 // Damping ratio = 1: critlcally-damped.
@@ -142,20 +150,20 @@ func NewSpring(deltaTime, angularFrequency, dampingRatio float64) (s Spring) {
 			e1 = math.Exp(z1 * deltaTime)
 			e2 = math.Exp(z2 * deltaTime)
 
-			invTwoZb = 1.0 / (2.0 * zb)
+			invTwoZb = 1.0 / (2.0 * zb) // = 1 / (z2 - z1)
 
-			e1OverTwoZb = e1 * invTwoZb
-			e2OverTwoZb = e2 * invTwoZb
+			e1_Over_TwoZb = e1 * invTwoZb
+			e2_Over_TwoZb = e2 * invTwoZb
 
-			z1e1OverTwoZb = z1 * e1OverTwoZb
-			z2e2OverTwoZb = z2 * e2OverTwoZb
+			z1e1_Over_TwoZb = z1 * e1_Over_TwoZb
+			z2e2_Over_TwoZb = z2 * e2_Over_TwoZb
 		)
 
-		s.posPosCoef = e1OverTwoZb*z2 - z2e2OverTwoZb + e2
-		s.posVelCoef = -e1OverTwoZb + e2OverTwoZb
+		s.posPosCoef = e1_Over_TwoZb*z2 - z2e2_Over_TwoZb + e2
+		s.posVelCoef = -e1_Over_TwoZb + e2_Over_TwoZb
 
-		s.velPosCoef = (z1e1OverTwoZb - z2e2OverTwoZb + e2) * z2
-		s.velVelCoef = -z1e1OverTwoZb + z2e2OverTwoZb
+		s.velPosCoef = (z1e1_Over_TwoZb - z2e2_Over_TwoZb + e2) * z2
+		s.velVelCoef = -z1e1_Over_TwoZb + z2e2_Over_TwoZb
 
 	} else if dampingRatio < 1.0-epsilon {
 		// Under-damped.
@@ -169,16 +177,16 @@ func NewSpring(deltaTime, angularFrequency, dampingRatio float64) (s Spring) {
 
 			invAlpha = 1.0 / alpha
 
-			expSin                   = expTerm * sinTerm
-			expCos                   = expTerm * cosTerm
-			expOmegaZetaSinOverAlpha = expTerm * omegaZeta * sinTerm * invAlpha
+			expSin                     = expTerm * sinTerm
+			expCos                     = expTerm * cosTerm
+			expOmegaZetaSin_Over_Alpha = expTerm * omegaZeta * sinTerm * invAlpha
 		)
 
-		s.posPosCoef = expCos + expOmegaZetaSinOverAlpha
+		s.posPosCoef = expCos + expOmegaZetaSin_Over_Alpha
 		s.posVelCoef = expSin * invAlpha
 
-		s.velPosCoef = -expSin*alpha - omegaZeta*expOmegaZetaSinOverAlpha
-		s.velVelCoef = expCos - expOmegaZetaSinOverAlpha
+		s.velPosCoef = -expSin*alpha - omegaZeta*expOmegaZetaSin_Over_Alpha
+		s.velVelCoef = expCos - expOmegaZetaSin_Over_Alpha
 
 	} else {
 		// Critically damped.
@@ -199,9 +207,9 @@ func NewSpring(deltaTime, angularFrequency, dampingRatio float64) (s Spring) {
 }
 
 // Update updates position and velocity values against a given target value.
-// Call this after calling New to update values.
-func (s Spring) Update(pos, vel *float64, equilibriumPos float64) {
-	oldPos := *pos - equilibriumPos
+// Call this after calling NewSpring to update values.
+func (s Spring) Update(pos *float64, vel *float64, equilibriumPos float64) {
+	oldPos := *pos - equilibriumPos // update in equilibrium relative space
 	oldVel := *vel
 
 	*pos = oldPos*s.posPosCoef + oldVel*s.posVelCoef + equilibriumPos
