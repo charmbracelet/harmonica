@@ -5,16 +5,15 @@
 // Example usage:
 //
 //     // Run once to initialize.
-//     spring := NewSpring(FPS(60), 0.8, 1.0)
+//     spring := NewSpring(FPS(60), 6.0, 0.2)
 //
 //     // Update on every frame.
 //     pos := 0.0
-//     targetPos := 10.0
+//     targetPos := 100.0
 //     velocity := 0.0
-//     spring.Update(&pos, &velocity, targetPos)
-//
-//     // You could also use a custom FPS with the TimeDelta helper:
-//     fps := TimeDelta(time.Second/24) // 24fps
+//     someUpdateLoop(func() {
+//         spring.Update(&pos, &velocity, targetPos)
+//     })
 //
 // For background on the algorithm see:
 // https://www.ryanjuckett.com/damped-springs/
@@ -56,7 +55,9 @@ import (
 )
 
 // FPS returns a time delta for a given number of frames per second. This
-// value can be used as the time delta when initializing a Spring.
+// value can be used as the time delta when initializing a Spring. Note that
+// game engines often provide the time delta as well, which you should use
+// instead of this function, if possible.
 //
 // Example:
 //
@@ -66,7 +67,7 @@ func FPS(n int) float64 {
 	return (time.Second / time.Duration(n)).Seconds()
 }
 
-// In calculus ε is (in vague terms) an arbitrarily small positive number. In
+// In calculus ε is, in vague terms, an arbitrarily small positive number. In
 // the original C++ source ε is represented as such:
 //
 //     const float epsilon = 0.0001
@@ -90,11 +91,14 @@ var epsilon = math.Nextafter(1, 2) - 1
 //
 // Example:
 //
+//     // First precomute spring coefficients based on your settings:
 //     var x, xVel, y, yVel float
-//     fps := TimeDelta(time.Second/60) // or use a const like FPS60 or FPS30
-//     s := NewSping(fps, 0.98, 8.0)
-//     s.Update(&x, &xVel, 10)          // update the X position
-//     s.Update(&y, &yVel, 20)          // update the Y position
+//     deltaTime := FPS(60)
+//     s := NewSpring(deltaTime, 5.0, 0.2)
+//
+//     // Then, in your update loop:
+//     s.Update(&x, &xVel, 10)             // update the X position
+//     s.Update(&y, &yVel, 20)             // update the Y position
 //
 type Spring struct {
 	posPosCoef, posVelCoef float64

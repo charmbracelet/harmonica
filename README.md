@@ -23,7 +23,7 @@ const targetX = 50.0
 const targetY = 100.0
 
 // Initialize a spring with framerate, angular frequency, and damping values.
-spring := harmonica.NewSpring(harmonica.FPS60, 0.8, 0.98)
+spring := harmonica.NewSpring(harmonica.FPS(60), 6.0, 0.5)
 
 // Animate!
 for {
@@ -37,6 +37,42 @@ For details, see the [examples][examples] and the [docs][docs].
 
 [examples]: https://github.com/charmbracelet/harmonica/tree/master/examples
 [docs]: https://pkg.go.dev/github.com/charmbracelet/harmonica?tab=doc
+
+## Settings
+
+`NewSpring` takes three different values on initialization:
+
+* **Time Delta:** the time step to operate on. Game engines typically provide
+  a way to determine the time delta, however if that's not available you can
+  simply set the framerate with the included `FPS(int)` utility function. Make
+  the framerate you set here matches your actual framerate.
+* **Angular Velocity:** this translates roughly to the speed. Higher values are
+  faster.
+* **Damping Ratio:** the springiness of the animation, generally between `0`
+  and `1`, though it can go higher. Lower values are springier. For details,
+  see below.
+
+## Damping Ratios
+
+The damping ratio affects the motion in one of three different ways depending
+on how it's set.
+
+### Under-Damping
+
+A spring is under-damped when its damping ratio is less than `1`. An
+under-damped spring reaches equilibrium the fastest, but overshoots and will
+continue to oscillate as its amplitude decays over time.
+
+### Critical Damping
+
+A spring is critically-damped the damping ratio is exactly `1`. A critically
+damped spring will reach equilibrium as fast as possible without oscillating.
+
+### Over-Damping
+
+A spring is over-damped the damping ratio is greater than `1`. An over-damped
+spring will never oscillate, but reaches equilibrium at a slower rate than
+a critically damped spring.
 
 ## Acknowledgements
 
