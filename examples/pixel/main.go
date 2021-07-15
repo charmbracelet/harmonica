@@ -17,6 +17,9 @@ import (
 const (
 	width       = 1024
 	height      = 768
+	bgColor     = "#575BD8"
+	textColor   = "#827EFF"
+	spriteColor = "#FFFDF5"
 	fontFile    = "JetBrainsMono-Regular.ttf"
 	idleTimeout = time.Second * 4
 )
@@ -27,19 +30,16 @@ func main() {
 }
 
 type Game struct {
-	deltaTime   float64
-	frequency   float64
-	damping     float64
-	win         *pixelgl.Window
-	bgColor     string
-	textColor   string
-	spriteColor string
-	shift       bool
-	font        font.Face
-	sprite      *Sprite
-	lastClick   time.Time
-	dirty       bool
-	showHelp    bool
+	deltaTime float64
+	frequency float64
+	damping   float64
+	win       *pixelgl.Window
+	shift     bool
+	font      font.Face
+	sprite    *Sprite
+	lastClick time.Time
+	dirty     bool
+	showHelp  bool
 }
 
 func (g Game) Size() (width, height float64) {
@@ -51,11 +51,8 @@ func (g Game) MousePosition() (x, y float64) {
 }
 
 func (g Game) Run() {
-	g.frequency = 2.0
-	g.damping = 2.0
-	g.bgColor = "#575BD8"
-	g.textColor = "#827EFF"
-	g.spriteColor = "#FFFDF5"
+	g.frequency = 10.0
+	g.damping = 0.2
 	g.showHelp = true
 
 	var err error
@@ -116,9 +113,9 @@ func (g *Game) Update() {
 	case released(pixelgl.KeyRight):
 		adjustFreq = 0.1
 	case released(pixelgl.KeyUp):
-		adjustDamp = 0.1
+		adjustDamp = 0.01
 	case released(pixelgl.KeyDown):
-		adjustDamp = -0.1
+		adjustDamp = -0.01
 	case released(pixelgl.KeySpace):
 		g.showHelp = !g.showHelp
 	}
@@ -168,7 +165,7 @@ func (g Game) Draw(ctx *gg.Context) {
 	w, h := g.Size()
 
 	// BG
-	ctx.SetHexColor(g.bgColor)
+	ctx.SetHexColor(bgColor)
 	ctx.DrawRectangle(0, 0, w, h)
 	ctx.Fill()
 
@@ -181,7 +178,7 @@ func (g Game) Draw(ctx *gg.Context) {
 
 		// Instructional text
 		ctx.Push()
-		ctx.SetHexColor(g.textColor)
+		ctx.SetHexColor(textColor)
 		ctx.SetFontFace(g.font)
 		ctx.DrawStringAnchored("Click!", w/2, h/2, 0.5, 0.5)
 		ctx.Fill()
@@ -189,11 +186,11 @@ func (g Game) Draw(ctx *gg.Context) {
 
 		// Status
 		str := fmt.Sprintf(
-			"Frequency: %.1f (←/→: adjust) • Damping: %.1f (↑/↓: adjust)",
+			"Frequency: %.1f (←/→: adjust) • Damping: %.2f (↑/↓: adjust)",
 			g.frequency, g.damping,
 		)
 		ctx.Push()
-		ctx.SetHexColor(g.textColor)
+		ctx.SetHexColor(textColor)
 		ctx.SetFontFace(g.font)
 		ctx.DrawStringAnchored(str, w/2, h-34, 0.5, 0)
 		ctx.Fill()
@@ -237,7 +234,7 @@ func NewSprite(g *Game) *Sprite {
 		TargetX: mouseX,
 		TargetY: mouseY,
 		radius:  0.1,
-		color:   g.spriteColor,
+		color:   spriteColor,
 		game:    g,
 	}
 	s.computeSpring()
@@ -306,7 +303,9 @@ func (s *Sprite) randomRadius() {
 }
 
 func (s *Sprite) Show() {
-	s.X, s.Y = s.game.MousePosition()
+	if s.State() == gone {
+		s.X, s.Y = s.game.MousePosition()
+	}
 	if s.radius < 0.1 {
 		s.radius = 0.1
 	}
@@ -316,7 +315,7 @@ func (s *Sprite) Show() {
 
 func (s *Sprite) Hide() {
 	// Fixed frequency and damping when hiding
-	s.spring = harmonica.NewSpring(s.game.deltaTime, 3.0, 8.0)
+	s.spring = harmonica.NewSpring(s.game.deltaTime, 32.0, 1.0)
 	s.TargetRadius = 0
 }
 

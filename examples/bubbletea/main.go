@@ -16,8 +16,8 @@ const (
 	fps          = 60
 	spriteWidth  = 12
 	spriteHeight = 5
-	frequency    = 0.95
-	damping      = 0.98
+	frequency    = 7.8
+	damping      = 0.15
 )
 
 var (
@@ -27,8 +27,8 @@ var (
 			MarginLeft(2)
 
 	spriteStyle = lipgloss.NewStyle().
-			Foreground(lipgloss.Color("229")).
-			Background(lipgloss.Color("69"))
+			Foreground(lipgloss.Color("#FFFDF5")).
+			Background(lipgloss.Color("#575BD8"))
 )
 
 type frameMsg time.Time
@@ -37,6 +37,11 @@ func animate() tea.Cmd {
 	return tea.Tick(time.Second/fps, func(t time.Time) tea.Msg {
 		return frameMsg(t)
 	})
+}
+
+func waitASec() tea.Msg {
+	time.Sleep(time.Millisecond * 750)
+	return nil
 }
 
 type model struct {
@@ -63,7 +68,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		// Quit when we're basically at the target position.
 		if math.Abs(m.x-targetX) < 0.01 {
-			return m, tea.Quit
+			return m, tea.Sequentially(waitASec, tea.Quit)
 		}
 
 		// Request next frame
