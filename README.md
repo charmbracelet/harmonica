@@ -9,6 +9,10 @@ Harmonica
 
 A simple, efficient spring animation library for smooth, natural motion.
 
+<img src="https://stuff.charm.sh/harmonica/harmonica-opengl.gif" width="400" alt="Harmonica OpenGL Demo">
+
+Harmonica is framework agnostic and works well in 2D and 3D contexts.
+
 ```go
 import "github.com/charmbracelet/harmonica"
 
@@ -32,6 +36,10 @@ for {
     time.Sleep(time.Second/60)
 }
 ```
+
+It even works well on the command line.
+
+ <img src="https://stuff.charm.sh/harmonica/harmonica-tui.gif" width="900" alt="Harmonica TUI Demo">
 
 For details, see the [examples][examples] and the [docs][docs].
 
