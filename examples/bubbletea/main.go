@@ -16,7 +16,7 @@ const (
 	fps          = 60
 	spriteWidth  = 12
 	spriteHeight = 5
-	frequency    = 7.8
+	frequency    = 7.0
 	damping      = 0.15
 )
 
@@ -39,9 +39,11 @@ func animate() tea.Cmd {
 	})
 }
 
-func waitASec() tea.Msg {
-	time.Sleep(time.Millisecond * 750)
-	return nil
+func waitASec(ms int) tea.Cmd {
+	return func() tea.Msg {
+		time.Sleep(time.Millisecond * time.Duration(ms))
+		return nil
+	}
 }
 
 type model struct {
@@ -51,7 +53,7 @@ type model struct {
 }
 
 func (_ model) Init() tea.Cmd {
-	return animate()
+	return tea.Sequentially(waitASec(500), animate())
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
@@ -68,7 +70,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		// Quit when we're basically at the target position.
 		if math.Abs(m.x-targetX) < 0.01 {
-			return m, tea.Sequentially(waitASec, tea.Quit)
+			return m, tea.Sequentially(waitASec(750), tea.Quit)
 		}
 
 		// Request next frame
