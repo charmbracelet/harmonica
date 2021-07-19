@@ -48,7 +48,7 @@ For details, see the [examples][examples] and the [docs][docs].
 
 ## Settings
 
-`NewSpring` takes three different values on initialization:
+[`NewSpring`](https://pkg.go.dev/github.com/charmbracelet/harmonica#NewSpring) takes three values:
 
 * **Time Delta:** the time step to operate on. Game engines typically provide
   a way to determine the time delta, however if that's not available you can
