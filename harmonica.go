@@ -91,7 +91,7 @@ var epsilon = math.Nextafter(1, 2) - 1
 //
 // Example:
 //
-//     // First precomute spring coefficients based on your settings:
+//     // First precompute spring coefficients based on your settings:
 //     var x, xVel, y, yVel float
 //     deltaTime := FPS(60)
 //     s := NewSpring(deltaTime, 5.0, 0.2)
@@ -105,8 +105,8 @@ type Spring struct {
 	velPosCoef, velVelCoef float64
 }
 
-// New initializes a new Spring, computing the parameters needed to simulate
-// a damped spring over a given period of time.
+// NewSpring initializes a new Spring, computing the parameters needed to
+// simulate a damped spring over a given period of time.
 //
 // The delta time is the time step to advance; essentially the framerate.
 //

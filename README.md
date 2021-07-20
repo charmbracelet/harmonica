@@ -11,7 +11,7 @@ A simple, efficient spring animation library for smooth, natural motion.
 
 <img src="https://stuff.charm.sh/harmonica/harmonica-opengl.gif" width="400" alt="Harmonica OpenGL Demo">
 
-Harmonica is framework agnostic and works well in 2D and 3D contexts.
+Harmonica is framework-agnostic and works well in 2D and 3D contexts.
 
 ```go
 import "github.com/charmbracelet/harmonica"
