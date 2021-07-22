@@ -2,6 +2,7 @@ Harmonica
 =========
 
 <p>
+    <img src="https://stuff.charm.sh/harmonica/harmonica-readme.png" alt="Harmonica Image" width="325"><br>
     <a href="https://github.com/charmbracelet/harmonica/releases"><img src="https://img.shields.io/github/release/charmbracelet/harmonica.svg" alt="Latest Release"></a>
     <a href="https://pkg.go.dev/github.com/charmbracelet/harmonica?tab=doc"><img src="https://godoc.org/github.com/golang/gddo?status.svg" alt="GoDoc"></a>
     <a href="https://github.com/charmbracelet/harmonica/actions"><img src="https://github.com/charmbracelet/harmonica/workflows/build/badge.svg" alt="Build Status"></a>
@@ -9,9 +10,20 @@ Harmonica
 
 A simple, efficient spring animation library for smooth, natural motion.
 
-<img src="https://stuff.charm.sh/harmonica/harmonica-opengl.gif" width="400" alt="Harmonica OpenGL Demo">
+<img src="https://stuff.charm.sh/harmonica/harmonica-opengl.gif" width="500" alt="Harmonica OpenGL Demo">
 
-Harmonica is framework-agnostic and works well in 2D and 3D contexts.
+It even works well on the command line.
+
+<img src="https://stuff.charm.sh/harmonica/harmonica-tui.gif" width="900" alt="Harmonica TUI Demo">
+
+[examples]: https://github.com/charmbracelet/harmonica/tree/master/examples
+[docs]: https://pkg.go.dev/github.com/charmbracelet/harmonica?tab=doc
+
+## Usage
+
+Harmonica is framework-agnostic and works well in 2D and 3D contexts. Simply
+call [`NewSpring`][newspring] with your settings to initialize and
+[`Update`][update] on each frame to animate.
 
 ```go
 import "github.com/charmbracelet/harmonica"
@@ -37,18 +49,14 @@ for {
 }
 ```
 
-It even works well on the command line.
-
- <img src="https://stuff.charm.sh/harmonica/harmonica-tui.gif" width="900" alt="Harmonica TUI Demo">
-
 For details, see the [examples][examples] and the [docs][docs].
 
-[examples]: https://github.com/charmbracelet/harmonica/tree/master/examples
-[docs]: https://pkg.go.dev/github.com/charmbracelet/harmonica?tab=doc
+[newspring]: https://pkg.go.dev/github.com/charmbracelet/harmonica#NewSpring
+[update]: https://pkg.go.dev/github.com/charmbracelet/harmonica#Update
 
 ## Settings
 
-[`NewSpring`](https://pkg.go.dev/github.com/charmbracelet/harmonica#NewSpring) takes three values:
+[`NewSpring`][newspring] takes three values:
 
 * **Time Delta:** the time step to operate on. Game engines typically provide
   a way to determine the time delta, however if that's not available you can
