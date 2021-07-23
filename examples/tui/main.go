@@ -66,7 +66,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		const targetX = 60
 
 		// Update x position (and velocity) with our spring.
-		m.spring.Update(&m.x, &m.xVel, targetX)
+		m.x, m.xVel = m.spring.Update(m.x, m.xVel, targetX)
 
 		// Quit when we're basically at the target position.
 		if math.Abs(m.x-targetX) < 0.01 {

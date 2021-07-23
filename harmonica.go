@@ -9,10 +9,10 @@
 //
 //     // Update on every frame.
 //     pos := 0.0
-//     targetPos := 100.0
 //     velocity := 0.0
+//     targetPos := 100.0
 //     someUpdateLoop(func() {
-//         spring.Update(&pos, &velocity, targetPos)
+//         pos, velocity = spring.Update(pos, velocity, targetPos)
 //     })
 //
 // For background on the algorithm see:
@@ -61,7 +61,7 @@ import (
 //
 // Example:
 //
-//     spring := NewSpring(FPS(60), 0.8, 0.98)
+//     spring := NewSpring(FPS(60), 5.0, 0.2)
 //
 func FPS(n int) float64 {
 	return (time.Second / time.Duration(n)).Seconds()
@@ -92,13 +92,13 @@ var epsilon = math.Nextafter(1, 2) - 1
 // Example:
 //
 //     // First precompute spring coefficients based on your settings:
-//     var x, xVel, y, yVel float
+//     var x, xVel, y, yVel float64
 //     deltaTime := FPS(60)
 //     s := NewSpring(deltaTime, 5.0, 0.2)
 //
 //     // Then, in your update loop:
-//     s.Update(&x, &xVel, 10)             // update the X position
-//     s.Update(&y, &yVel, 20)             // update the Y position
+//     x, xVel = s.Update(x, xVel, 10) // update the X position
+//     y, yVel = s.Update(y, yVel, 20) // update the Y position
 //
 type Spring struct {
 	posPosCoef, posVelCoef float64
@@ -212,10 +212,12 @@ func NewSpring(deltaTime, angularFrequency, dampingRatio float64) (s Spring) {
 
 // Update updates position and velocity values against a given target value.
 // Call this after calling NewSpring to update values.
-func (s Spring) Update(pos *float64, vel *float64, equilibriumPos float64) {
-	oldPos := *pos - equilibriumPos // update in equilibrium relative space
-	oldVel := *vel
+func (s Spring) Update(pos, vel float64, equilibriumPos float64) (newPos, newVel float64) {
+	oldPos := pos - equilibriumPos // update in equilibrium relative space
+	oldVel := vel
 
-	*pos = oldPos*s.posPosCoef + oldVel*s.posVelCoef + equilibriumPos
-	*vel = oldPos*s.velPosCoef + oldVel*s.velVelCoef
+	newPos = oldPos*s.posPosCoef + oldVel*s.posVelCoef + equilibriumPos
+	newVel = oldPos*s.velPosCoef + oldVel*s.velVelCoef
+
+	return newPos, newVel
 }

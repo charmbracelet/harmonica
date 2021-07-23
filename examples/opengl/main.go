@@ -255,9 +255,9 @@ func (s *Sprite) Update() {
 	}
 
 	// Calculate positions based on our spring
-	s.spring.Update(&s.X, &s.xVel, s.TargetX)
-	s.spring.Update(&s.Y, &s.yVel, s.TargetY)
-	s.spring.Update(&s.radius, &s.radiusVel, s.TargetRadius)
+	s.X, s.xVel = s.spring.Update(s.X, s.xVel, s.TargetX)
+	s.Y, s.yVel = s.spring.Update(s.Y, s.yVel, s.TargetY)
+	s.radius, s.radiusVel = s.spring.Update(s.radius, s.radiusVel, s.TargetRadius)
 }
 
 func (s Sprite) Draw(ctx *gg.Context) {
