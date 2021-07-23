@@ -17,14 +17,21 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
 
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Download Go modules
+      - name: Download Go Modules
         run: go mod download
 
       - name: Build
         run: go build -v ./...
+
+      - name: Build Examples (on Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get install libgl1-mesa-dev xorg-dev
+          go build -v ./...
+        working-directory: ./examples
 
       - name: Test
         run: go test ./...
