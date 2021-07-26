@@ -2,7 +2,7 @@ Harmonica
 =========
 
 <p>
-    <img src="https://stuff.charm.sh/harmonica/harmonica-readme.png" alt="Harmonica Image" width="325"><br>
+    <a href="https://stuff.charm.sh/harmonica/harmonica-art.png"><img src="https://stuff.charm.sh/harmonica/harmonica-readme.png" alt="Harmonica Image" width="325"></a><br>
     <a href="https://github.com/charmbracelet/harmonica/releases"><img src="https://img.shields.io/github/release/charmbracelet/harmonica.svg" alt="Latest Release"></a>
     <a href="https://pkg.go.dev/github.com/charmbracelet/harmonica?tab=doc"><img src="https://godoc.org/github.com/golang/gddo?status.svg" alt="GoDoc"></a>
     <a href="https://github.com/charmbracelet/harmonica/actions"><img src="https://github.com/charmbracelet/harmonica/workflows/build/badge.svg" alt="Build Status"></a>
