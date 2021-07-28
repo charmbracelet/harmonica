@@ -43,8 +43,8 @@ spring := harmonica.NewSpring(harmonica.FPS(60), 6.0, 0.5)
 
 // Animate!
 for {
-    sprite.x, sprite.xVelocity = spring.Update(&sprite.x, &sprite.xVelocity, targetX)
-    sprite.y, sprite.yVelocity = spring.Update(&sprite.y, &sprite.yVelocity, targetY)
+    sprite.x, sprite.xVelocity = spring.Update(sprite.x, sprite.xVelocity, targetX)
+    sprite.y, sprite.yVelocity = spring.Update(sprite.y, sprite.yVelocity, targetY)
     time.Sleep(time.Second/60)
 }
 ```
