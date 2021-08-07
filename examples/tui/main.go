@@ -39,9 +39,9 @@ func animate() tea.Cmd {
 	})
 }
 
-func waitASec(ms int) tea.Cmd {
+func wait(d time.Duration) tea.Cmd {
 	return func() tea.Msg {
-		time.Sleep(time.Millisecond * time.Duration(ms))
+		time.Sleep(d)
 		return nil
 	}
 }
@@ -53,7 +53,7 @@ type model struct {
 }
 
 func (_ model) Init() tea.Cmd {
-	return tea.Sequentially(waitASec(500), animate())
+	return tea.Sequentially(wait(time.Second/2), animate())
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
@@ -70,7 +70,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		// Quit when we're basically at the target position.
 		if math.Abs(m.x-targetX) < 0.01 {
-			return m, tea.Sequentially(waitASec(750), tea.Quit)
+			return m, tea.Sequentially(wait(3/4*time.Second), tea.Quit)
 		}
 
 		// Request next frame
