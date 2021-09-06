@@ -76,3 +76,8 @@ func (p *Projectile) Update() Point {
 
 	return p.pos
 }
+
+// Position returns the position of the projectile
+func (p *Projectile) Position() Point {
+	return p.pos
+}
