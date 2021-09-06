@@ -40,16 +40,17 @@ type Vector struct {
 // Gravity is a utility vector that represents gravity in 2D and 3D contexts,
 // assuming that your coordinate plane looks like in 2D or 3D:
 //
-//  -y            -y ±z
+//   y             y ±z
 //   │             │ /
 //   │             │/
 //   └───── ±x     └───── ±x
 //
-// Note: Gravity usually is -9.81m/s however we use a positive value because we
-// assume the origin is placed at the top-left corner and that downward is the
-// positive y direction (only if using this utility variable).
-// Otherwise, you can place the origin wherever you'd like.
-var Gravity = Vector{0, 9.81, 0}
+// (i.e. origin is located in the bottom-left corner)
+var Gravity = Vector{0, -9.81, 0}
+
+// TerminalGravity is a utility vector that represents gravity where
+// the coordinate plane's origin is on the top-right corner
+var TerminalGravity = Vector{0, 9.81, 0}
 
 // NewProjectile accepts a frame rate, and initial values for position, velocity, and acceleration and
 // returns a new projectile.
