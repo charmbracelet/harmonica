@@ -54,8 +54,8 @@ var TerminalGravity = Vector{0, 9.81, 0}
 
 // NewProjectile accepts a frame rate, and initial values for position, velocity, and acceleration and
 // returns a new projectile.
-func NewProjectile(deltaTime float64, initialPosition Point, initialVelocity, initalAcceleration Vector) Projectile {
-	return Projectile{
+func NewProjectile(deltaTime float64, initialPosition Point, initialVelocity, initalAcceleration Vector) *Projectile {
+	return &Projectile{
 		pos:       initialPosition,
 		vel:       initialVelocity,
 		acc:       initalAcceleration,
