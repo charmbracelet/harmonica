@@ -31,7 +31,7 @@ func wait(d time.Duration) tea.Cmd {
 }
 
 type model struct {
-	projectile harmonica.Projectile
+	projectile *harmonica.Projectile
 	pos        harmonica.Point
 }
 
