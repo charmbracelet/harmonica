@@ -88,3 +88,13 @@ func (p *Projectile) Update() Point {
 func (p *Projectile) Position() Point {
 	return p.pos
 }
+
+// Velocity returns the velocity of the projectile.
+func (p *Projectile) Velocity() Vector {
+	return p.vel
+}
+
+// Acceleration returns the acceleration of the projectile.
+func (p *Projectile) Acceleration() Vector {
+	return p.acc
+}
