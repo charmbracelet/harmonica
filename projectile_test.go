@@ -53,6 +53,13 @@ func TestUpdate(t *testing.T) {
 			pos = projectile.Update()
 		}
 
+		pvel := projectile.Velocity()
+		if !equal(pvel.X, 5) || !equal(pvel.Y, 5) || !equal(pvel.Z, 0) {
+			t.Logf("Want: (%.2f, %.2f, %.2f)", pvel.X, pvel.Y, pvel.Z)
+			t.Logf("Want: (%.2f, %.2f, %.2f)", 5.0, 5.0, 0.0)
+			t.Fatal("velocity unexpected")
+		}
+
 		if !equal(pos.X, c.X) || !equal(pos.Y, c.Y) {
 			t.Logf("Want: (%.2f, %.2f)", c.X, c.Y)
 			t.Logf("Got:  (%.2f, %.2f)", pos.X, pos.Y)
@@ -63,7 +70,7 @@ func TestUpdate(t *testing.T) {
 
 func TestUpdateGravity(t *testing.T) {
 	fps := 60
-	projectile := NewProjectile(FPS(fps), Point{0, 0, 0}, Vector{5, 5, 0}, Vector{0, 9.81, 0})
+	projectile := NewProjectile(FPS(fps), Point{0, 0, 0}, Vector{5, 5, 0}, TerminalGravity)
 
 	coordinates := []Point{
 		{5.0, 9.82, 0},
@@ -81,11 +88,17 @@ func TestUpdateGravity(t *testing.T) {
 			pos = projectile.Update()
 		}
 
+		yacc := projectile.Acceleration().Y
+		if !equal(yacc, TerminalGravity.Y) {
+			t.Logf("Want: %.2f", TerminalGravity.Y)
+			t.Logf("Got:  %.2f", yacc)
+			t.Fatal("Y acceleration unexpected")
+		}
+
 		if !equal(pos.X, c.X) || !equal(pos.Y, c.Y) {
-			t.Log("coordinate unexpected")
 			t.Logf("Want: (%.2f, %.2f)", c.X, c.Y)
 			t.Logf("Got:  (%.2f, %.2f)", pos.X, pos.Y)
-			t.Fail()
+			t.Fatal("coordinate unexpected")
 		}
 	}
 }
