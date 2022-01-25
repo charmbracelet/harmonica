@@ -157,11 +157,11 @@ func NewSpring(deltaTime, angularFrequency, dampingRatio float64) (s Spring) {
 
 			invTwoZb = 1.0 / (2.0 * zb) // = 1 / (z2 - z1)
 
-			e1_Over_TwoZb = e1 * invTwoZb
-			e2_Over_TwoZb = e2 * invTwoZb
+			e1_Over_TwoZb = e1 * invTwoZb //nolint:revive
+			e2_Over_TwoZb = e2 * invTwoZb //nolint:revive
 
-			z1e1_Over_TwoZb = z1 * e1_Over_TwoZb
-			z2e2_Over_TwoZb = z2 * e2_Over_TwoZb
+			z1e1_Over_TwoZb = z1 * e1_Over_TwoZb //nolint:revive
+			z2e2_Over_TwoZb = z2 * e2_Over_TwoZb //nolint:revive
 		)
 
 		s.posPosCoef = e1_Over_TwoZb*z2 - z2e2_Over_TwoZb + e2
@@ -169,7 +169,6 @@ func NewSpring(deltaTime, angularFrequency, dampingRatio float64) (s Spring) {
 
 		s.velPosCoef = (z1e1_Over_TwoZb - z2e2_Over_TwoZb + e2) * z2
 		s.velVelCoef = -z1e1_Over_TwoZb + z2e2_Over_TwoZb
-
 	} else if dampingRatio < 1.0-epsilon {
 		// Under-damped.
 		var (
@@ -184,7 +183,7 @@ func NewSpring(deltaTime, angularFrequency, dampingRatio float64) (s Spring) {
 
 			expSin                     = expTerm * sinTerm
 			expCos                     = expTerm * cosTerm
-			expOmegaZetaSin_Over_Alpha = expTerm * omegaZeta * sinTerm * invAlpha
+			expOmegaZetaSin_Over_Alpha = expTerm * omegaZeta * sinTerm * invAlpha //nolint:revive
 		)
 
 		s.posPosCoef = expCos + expOmegaZetaSin_Over_Alpha
@@ -192,7 +191,6 @@ func NewSpring(deltaTime, angularFrequency, dampingRatio float64) (s Spring) {
 
 		s.velPosCoef = -expSin*alpha - omegaZeta*expOmegaZetaSin_Over_Alpha
 		s.velVelCoef = expCos - expOmegaZetaSin_Over_Alpha
-
 	} else {
 		// Critically damped.
 		var (
