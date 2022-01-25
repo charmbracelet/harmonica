@@ -93,7 +93,7 @@ a critically damped spring.
 ## Acknowledgements
 
 This library is a fairly straightforward port of [Ryan Juckett][juckett]’s
-excellent damped simple harmonic oscillator originally writen in C++ in 2008
+excellent damped simple harmonic oscillator originally written in C++ in 2008
 and published in 2012. [Ryan’s writeup][writeup] on the subject is fantastic.
 
 [juckett]: https://www.ryanjuckett.com/
