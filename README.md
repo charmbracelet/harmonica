@@ -61,7 +61,7 @@ For details, see the [examples][examples] and the [docs][docs].
 * **Time Delta:** the time step to operate on. Game engines typically provide
   a way to determine the time delta, however if that's not available you can
   simply set the framerate with the included `FPS(int)` utility function. Make
-  the framerate you set here matches your actual framerate.
+  sure the framerate you set here matches your actual framerate.
 * **Angular Velocity:** this translates roughly to the speed. Higher values are
   faster.
 * **Damping Ratio:** the springiness of the animation, generally between `0`
