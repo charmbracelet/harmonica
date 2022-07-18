@@ -118,7 +118,7 @@ type Spring struct {
 // oscillation, or lack thereof. There are three categories of damping ratios:
 //
 // Damping ratio > 1: over-damped.
-// Damping ratio = 1: critlcally-damped.
+// Damping ratio = 1: critically-damped.
 // Damping ratio < 1: under-damped.
 //
 // An over-damped spring will never oscillate, but reaches equilibrium at
