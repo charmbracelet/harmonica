@@ -21,8 +21,11 @@ It even works well on the command line.
 
 ## Usage
 
-Harmonica is framework-agnostic and works well in 2D and 3D contexts. Simply
-call [`NewSpring`][newspring] with your settings to initialize and
+Harmonica is framework-agnostic and works well in 2D and 3D contexts.
+
+### Springs
+
+Simply call [`NewSpring`][newspring] with your settings to initialize and
 [`Update`][update] on each frame to animate.
 
 ```go
@@ -49,9 +52,36 @@ for {
 }
 ```
 
+### Projectile
+
+Simply call [`NewProjectile`][newprojectile] with your settings to initialize
+a new projectile and [`Update`][update] on each frame to simulate physics and
+animate.
+
+```go
+import "github.com/charmbracelet/harmonica"
+
+// A projectile with physics
+projectile := harmonica.NewProjectile(
+  harmonica.FPS(60),
+  harmonica.Point{X: 0, Y: 0}, // initial position
+  harmonica.Vector{X: 5, Y: 0}, // initial velocity
+  harmonica.Gravity, // acceleration
+)
+
+// Animate!
+for {
+  projectile.Update()
+  // display projectile.Position()
+  time.Sleep(time.Second/60)
+}
+```
+
+
 For details, see the [examples][examples] and the [docs][docs].
 
 [newspring]: https://pkg.go.dev/github.com/charmbracelet/harmonica#NewSpring
+[newprojectile]: https://pkg.go.dev/github.com/charmbracelet/harmonica#NewProjectile
 [update]: https://pkg.go.dev/github.com/charmbracelet/harmonica#Update
 
 ## Settings
