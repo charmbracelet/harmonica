@@ -8,13 +8,17 @@ Harmonica
     <a href="https://github.com/charmbracelet/harmonica/actions"><img src="https://github.com/charmbracelet/harmonica/workflows/build/badge.svg" alt="Build Status"></a>
 </p>
 
-A simple, efficient spring animation library for smooth, natural motion.
+A simple, physics-based animation library for smooth, natural motion.
 
 <img src="https://stuff.charm.sh/harmonica/harmonica-opengl.gif" width="500" alt="Harmonica OpenGL Demo">
 
 It even works well on the command line.
 
-<img src="https://stuff.charm.sh/harmonica/harmonica-tui.gif" width="900" alt="Harmonica TUI Demo">
+<img src="https://stuff.charm.sh/harmonica/harmonica-tui.gif" width="900" alt="Harmonica Spring TUI Demo">
+
+Or with projectile motion.
+
+<img src="https://vhs.charm.sh/vhs-5E4WhayV3Jfiz5N0E1PNYX.gif" width="900" alt="Harmonica Projectile TUI Demo">
 
 [examples]: https://github.com/charmbracelet/harmonica/tree/master/examples
 [docs]: https://pkg.go.dev/github.com/charmbracelet/harmonica?tab=doc
@@ -22,6 +26,8 @@ It even works well on the command line.
 ## Usage
 
 Harmonica is framework-agnostic and works well in 2D and 3D contexts.
+
+Harmonica provides [Spring](#springs) motion to simulate oscilating springs and [Projectile](#projectiles) motion to simulate particle physics-based motion.
 
 ### Springs
 
@@ -52,7 +58,37 @@ for {
 }
 ```
 
-### Projectile
+[`NewSpring`][newspring] takes three values:
+
+* **Time Delta:** the time step to operate on. Game engines typically provide
+  a way to determine the time delta, however if that's not available you can
+  simply set the framerate with the included `FPS(int)` utility function. Make
+  sure the framerate you set here matches your actual framerate.
+* **Angular Velocity:** this translates roughly to the speed. Higher values are
+  faster.
+* **Damping Ratio:** the springiness of the animation, generally between `0`
+  and `1`, though it can go higher. Lower values are springier. For details,
+  see below.
+
+#### Damping Ratios
+
+The damping ratio affects the motion in one of three different ways depending
+on how it's set.
+
+* **Under-Damping**: damping ratio less than `1`. Reaches equilibrium fastest, but overshoots and continues to oscillate.
+* **Critical Damping**: damping ratio exactly `1`. Reaches equilibrium as fast as possible with oscillating.
+* **Over-Damping**: damping ratio greater than `1`. Never oscillates, but reaches equilibrium slower.
+
+#### Acknowledgements
+
+This library is a fairly straightforward port of [Ryan Juckett][juckett]’s
+excellent damped simple harmonic oscillator originally written in C++ in 2008
+and published in 2012. [Ryan’s writeup][writeup] on the subject is fantastic.
+
+[juckett]: https://www.ryanjuckett.com/
+[writeup]: https://www.ryanjuckett.com/damped-springs/
+
+### Projectiles
 
 Simply call [`NewProjectile`][newprojectile] with your settings to initialize
 a new projectile and [`Update`][update] on each frame to simulate physics and
@@ -77,57 +113,21 @@ for {
 }
 ```
 
+[`NewProjectile`][newprojectile] takes four values:
+
+* **Time Delta:** the time step to operate on. Game engines typically provide
+  a way to determine the time delta, however if that's not available you can
+  simply set the framerate with the included `FPS(int)` utility function. Make
+  sure the framerate you set here matches your actual framerate.
+* **Initial Position:** the starting position (as a `Point`). The position will change based on the velocity every frame.
+* **Initial Velocity:** the starting velocity of the projectile as a `Vector`. Every update the acceleration will affect this velocity.
+* **Initial Acceleration:** the initial acceleration of the projectile as a `Vector`. `Gravity` and `TerminalGravity` are provided as convenience methods.
 
 For details, see the [examples][examples] and the [docs][docs].
 
 [newspring]: https://pkg.go.dev/github.com/charmbracelet/harmonica#NewSpring
 [newprojectile]: https://pkg.go.dev/github.com/charmbracelet/harmonica#NewProjectile
 [update]: https://pkg.go.dev/github.com/charmbracelet/harmonica#Update
-
-## Settings
-
-[`NewSpring`][newspring] takes three values:
-
-* **Time Delta:** the time step to operate on. Game engines typically provide
-  a way to determine the time delta, however if that's not available you can
-  simply set the framerate with the included `FPS(int)` utility function. Make
-  sure the framerate you set here matches your actual framerate.
-* **Angular Velocity:** this translates roughly to the speed. Higher values are
-  faster.
-* **Damping Ratio:** the springiness of the animation, generally between `0`
-  and `1`, though it can go higher. Lower values are springier. For details,
-  see below.
-
-## Damping Ratios
-
-The damping ratio affects the motion in one of three different ways depending
-on how it's set.
-
-### Under-Damping
-
-A spring is under-damped when its damping ratio is less than `1`. An
-under-damped spring reaches equilibrium the fastest, but overshoots and will
-continue to oscillate as its amplitude decays over time.
-
-### Critical Damping
-
-A spring is critically-damped the damping ratio is exactly `1`. A critically
-damped spring will reach equilibrium as fast as possible without oscillating.
-
-### Over-Damping
-
-A spring is over-damped the damping ratio is greater than `1`. An over-damped
-spring will never oscillate, but reaches equilibrium at a slower rate than
-a critically damped spring.
-
-## Acknowledgements
-
-This library is a fairly straightforward port of [Ryan Juckett][juckett]’s
-excellent damped simple harmonic oscillator originally written in C++ in 2008
-and published in 2012. [Ryan’s writeup][writeup] on the subject is fantastic.
-
-[juckett]: https://www.ryanjuckett.com/
-[writeup]: https://www.ryanjuckett.com/damped-springs/
 
 ## Feedback
 
