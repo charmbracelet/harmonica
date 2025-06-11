@@ -99,6 +99,12 @@ and published in 2012. [Ryan’s writeup][writeup] on the subject is fantastic.
 [juckett]: https://www.ryanjuckett.com/
 [writeup]: https://www.ryanjuckett.com/damped-springs/
 
+## Contributing
+
+See [contributing][contribute].
+
+[contribute]: https://github.com/charmbracelet/harmonica/contribute
+
 ## Feedback
 
 We’d love to hear your thoughts on this project. Feel free to drop us a note!
