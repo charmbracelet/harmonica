@@ -87,7 +87,7 @@ var epsilon = math.Nextafter(1, 2) - 1
 //
 // To use a Spring call New with the time delta (that's animation frame
 // length), frequency, and damping parameters, cache the result, then call
-// Update to update position and velocity values for each spring that neeeds
+// Update to update position and velocity values for each spring that needs
 // updating.
 //
 // Example:
