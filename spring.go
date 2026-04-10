@@ -62,8 +62,7 @@ import (
 //
 // Example:
 //
-//     spring := NewSpring(FPS(60), 5.0, 0.2)
-//
+//	spring := NewSpring(FPS(60), 5.0, 0.2)
 func FPS(n int) float64 {
 	return (time.Second / time.Duration(n)).Seconds()
 }
@@ -71,11 +70,11 @@ func FPS(n int) float64 {
 // In calculus ε is, in vague terms, an arbitrarily small positive number. In
 // the original C++ source ε is represented as such:
 //
-//     const float epsilon = 0.0001
+//	   const float epsilon = 0.0001
 //
-//  Some Go programmers use:
+//	Some Go programmers use:
 //
-//     const epsilon float64 = 0.00000001
+//	   const epsilon float64 = 0.00000001
 //
 // We can, however, calculate the machine’s epsilon value, with the drawback
 // that it must be a variable versus a constant.
@@ -87,20 +86,19 @@ var epsilon = math.Nextafter(1, 2) - 1
 //
 // To use a Spring call New with the time delta (that's animation frame
 // length), frequency, and damping parameters, cache the result, then call
-// Update to update position and velocity values for each spring that neeeds
+// Update to update position and velocity values for each spring that needs
 // updating.
 //
 // Example:
 //
-//     // First precompute spring coefficients based on your settings:
-//     var x, xVel, y, yVel float64
-//     deltaTime := FPS(60)
-//     s := NewSpring(deltaTime, 5.0, 0.2)
+//	// First precompute spring coefficients based on your settings:
+//	var x, xVel, y, yVel float64
+//	deltaTime := FPS(60)
+//	s := NewSpring(deltaTime, 5.0, 0.2)
 //
-//     // Then, in your update loop:
-//     x, xVel = s.Update(x, xVel, 10) // update the X position
-//     y, yVel = s.Update(y, yVel, 20) // update the Y position
-//
+//	// Then, in your update loop:
+//	x, xVel = s.Update(x, xVel, 10) // update the X position
+//	y, yVel = s.Update(y, yVel, 20) // update the Y position
 type Spring struct {
 	posPosCoef, posVelCoef float64
 	velPosCoef, velVelCoef float64

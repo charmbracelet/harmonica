@@ -30,7 +30,8 @@ func TestNew(t *testing.T) {
 const equalityThreshold = 1e-2
 
 // floating point comparison function that tests for an equality under the:
-//    equalityThreshold
+//
+//	equalityThreshold
 func equal(a, b float64) bool {
 	return math.Abs(a-b) <= equalityThreshold
 }

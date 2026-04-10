@@ -46,10 +46,10 @@ type Vector struct {
 // Gravity is a utility vector that represents gravity in 2D and 3D contexts,
 // assuming that your coordinate plane looks like in 2D or 3D:
 //
-//   y             y ±z
-//   │             │ /
-//   │             │/
-//   └───── ±x     └───── ±x
+//	y             y ±z
+//	│             │ /
+//	│             │/
+//	└───── ±x     └───── ±x
 //
 // (i.e. origin is located in the bottom-left corner)
 var Gravity = Vector{0, -9.81, 0}
@@ -61,11 +61,11 @@ var TerminalGravity = Vector{0, 9.81, 0}
 // NewProjectile creates a new projectile. It accepts a frame rate and initial
 // values for position, velocity, and acceleration. It returns a new
 // projectile.
-func NewProjectile(deltaTime float64, initialPosition Point, initialVelocity, initalAcceleration Vector) *Projectile {
+func NewProjectile(deltaTime float64, initialPosition Point, initialVelocity, initialAcceleration Vector) *Projectile {
 	return &Projectile{
 		pos:       initialPosition,
 		vel:       initialVelocity,
-		acc:       initalAcceleration,
+		acc:       initialAcceleration,
 		deltaTime: deltaTime,
 	}
 }
