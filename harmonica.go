@@ -1,5 +1,5 @@
 // Package harmonica is a set of physics-based animation tools for 2D and 3D
-// applications. There's a spring animation simulator for for smooth, realistic
+// applications. There's a spring animation simulator for smooth, realistic
 // motion and a projectile simulator well suited for projectiles and particles.
 //
 // Example spring usage:
